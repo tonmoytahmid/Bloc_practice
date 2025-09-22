@@ -1,0 +1,43 @@
+import 'package:bloc_practice/config/colorConst.dart';
+import 'package:bloc_practice/fetures/home/widgets/appbarWidget.dart';
+import 'package:bloc_practice/fetures/home/widgets/cancleorderWidget.dart';
+import 'package:bloc_practice/fetures/home/widgets/cashcalculationWidget.dart';
+import 'package:bloc_practice/fetures/home/widgets/namecardWidget.dart';
+import 'package:bloc_practice/fetures/home/widgets/sectionWidget.dart';
+import 'package:flutter/material.dart';
+
+class Homescreen extends StatefulWidget {
+  const Homescreen({super.key});
+
+  @override
+  State<Homescreen> createState() => _HomescreenState();
+}
+
+class _HomescreenState extends State<Homescreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: bgColor,
+      appBar: appBarWidget(() {}),
+      body: Padding(
+        padding: const EdgeInsets.only(
+          left: 10,
+          right: 10,
+          top: 10,
+          bottom: 20,
+        ),
+        child: ListView(
+          children: [
+            Namecardwidget(),
+            SizedBox(height: 20),
+            SectionWidget(),
+            SizedBox(height: 20),
+            Cancleorderwidget(),
+            SizedBox(height: 20),
+            Cashcalculationwidget(),
+          ],
+        ),
+      ),
+    );
+  }
+}
