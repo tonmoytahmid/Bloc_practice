@@ -10,6 +10,7 @@ class Cashcalculationwidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
+        
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: Color(0xFF0000000D)),
         color: whiteColor,

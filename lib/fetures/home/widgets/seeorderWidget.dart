@@ -3,7 +3,7 @@ import 'package:bloc_practice/config/styling.dart';
 import 'package:flutter/material.dart';
 
 class Seeorderwidget extends StatelessWidget {
-  void Function()? onTap;
+ final void Function()? onTap;
   Seeorderwidget({super.key, this.onTap});
 
   @override

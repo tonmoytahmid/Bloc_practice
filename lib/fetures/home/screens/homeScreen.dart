@@ -1,4 +1,5 @@
 import 'package:bloc_practice/config/colorConst.dart';
+import 'package:bloc_practice/core/helper/notification_helper.dart';
 import 'package:bloc_practice/fetures/home/widgets/appbarWidget.dart';
 import 'package:bloc_practice/fetures/home/widgets/cancleorderWidget.dart';
 import 'package:bloc_practice/fetures/home/widgets/cashcalculationWidget.dart';
@@ -14,6 +15,15 @@ class Homescreen extends StatefulWidget {
 }
 
 class _HomescreenState extends State<Homescreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    NotificationHelper().getToken();
+
+    print("Token: ${NotificationHelper().getToken()}");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
