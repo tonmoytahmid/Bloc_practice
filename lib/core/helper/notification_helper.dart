@@ -1,4 +1,6 @@
+import 'package:bloc_practice/fetures/order/screens/orderScreen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationHelper {
@@ -12,7 +14,7 @@ class NotificationHelper {
     return token;
   }
 
-  Future<void> initialize() async {
+  Future<void> initialize(GlobalKey<NavigatorState> navigatorKey) async {
     final AndroidInitializationSettings androidInitializationSettings =
         AndroidInitializationSettings('ic_stat_download');
     final DarwinInitializationSettings iosInitializationSettings =
@@ -21,7 +23,21 @@ class NotificationHelper {
       android: androidInitializationSettings,
       iOS: iosInitializationSettings,
     );
-    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onDidReceiveNotificationResponse: (NotificationResponse response) {
+        String? payload = response.payload;
+        if (payload != null && payload.isNotEmpty) {
+          navigatorKey.currentState?.push(
+            MaterialPageRoute(
+              builder: (context) {
+                return Orderscreen(orderId: payload);
+              },
+            ),
+          );
+        }
+      },
+    );
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print(
@@ -33,102 +49,93 @@ class NotificationHelper {
       print(
         "Title:${message.notification?.title.toString()},Body: ${message.notification?.body.toString()}",
       );
-      showNotification(message);
+      // showNotification(message);
+      final orderId = message.data["orderId"];
+      navigatorKey.currentState?.push(
+        MaterialPageRoute(
+          builder: (context) {
+            return Orderscreen(orderId: orderId);
+          },
+        ),
+      );
     });
   }
 
+  Future<void> checkForInitialMessage(BuildContext context) async {
+    RemoteMessage? initialMessage = await FirebaseMessaging.instance
+        .getInitialMessage();
+
+    if (initialMessage != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return Orderscreen(orderId: initialMessage.data["orderId"]);
+          },
+        ),
+      );
+    }
+  }
+
   Future<void> showNotification(RemoteMessage message) async {
-    AndroidNotificationDetails androidNotificationDetails =
-        AndroidNotificationDetails("channelId", "channelName");
-    DarwinNotificationDetails iosNotificationDetails =
-        DarwinNotificationDetails();
+    String? image = message.data['image'];
 
-    NotificationDetails notificationDetails = NotificationDetails(
-      android: androidNotificationDetails,
-      iOS: iosNotificationDetails,
-    );
+    if (image != null && image.isNotEmpty) {
+      BigPictureStyleInformation bigPictureStyleInformation =
+          BigPictureStyleInformation(
+            FilePathAndroidBitmap(image),
+            contentTitle: message.notification?.title,
+            summaryText: message.notification?.body,
+          );
+      AndroidNotificationDetails androidNotificationDetails =
+          AndroidNotificationDetails(
+            "channelId",
+            "channelName",
+            importance: Importance.max,
+            priority: Priority.high,
+            playSound: true,
+            styleInformation: bigPictureStyleInformation,
+          );
+      DarwinNotificationDetails iosNotificationDetails =
+          DarwinNotificationDetails();
 
-    await flutterLocalNotificationsPlugin.show(
-      0,
-      message.notification?.title,
-      message.notification?.body,
-      notificationDetails,
-    );
+      NotificationDetails notificationDetails = NotificationDetails(
+        android: androidNotificationDetails,
+        iOS: iosNotificationDetails,
+      );
+
+      await flutterLocalNotificationsPlugin.show(
+        0,
+        message.notification?.title,
+        message.notification?.body,
+        notificationDetails,
+        payload: message.data["orderId"],
+      );
+      return;
+    } else {
+      AndroidNotificationDetails androidNotificationDetails =
+          AndroidNotificationDetails(
+            "channelId",
+            "channelName",
+            importance: Importance.max,
+            priority: Priority.high,
+            playSound: true,
+          );
+      DarwinNotificationDetails iosNotificationDetails =
+          DarwinNotificationDetails();
+
+      NotificationDetails notificationDetails = NotificationDetails(
+        android: androidNotificationDetails,
+        iOS: iosNotificationDetails,
+      );
+
+      await flutterLocalNotificationsPlugin.show(
+        0,
+        message.notification?.title,
+        message.notification?.body,
+        notificationDetails,
+        payload: message.data["orderId"],
+      );
+    }
   }
 }
-
-// import 'package:firebase_messaging/firebase_messaging.dart';
-// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
-// class NotificationHelper {
-//   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-//       FlutterLocalNotificationsPlugin();
-
-//   Future<String> getTokens() async {
-//     FirebaseMessaging messaging = FirebaseMessaging.instance;
-//     String? token = await messaging.getToken();
-//     print("Token: $token");
-//     return token!;
-//   }
-
-//   Future<void> initialize() async {
-//     AndroidInitializationSettings androidInitializationSettings =
-//         AndroidInitializationSettings('ic_stat_download');
-//     const DarwinInitializationSettings iosInitializationSettings =
-//         DarwinInitializationSettings();
-
-//     InitializationSettings initializationSettings = InitializationSettings(
-//       android: androidInitializationSettings,
-//       iOS: iosInitializationSettings,
-//     );
-//     await flutterLocalNotificationsPlugin.initialize(
-//       initializationSettings,
-//       onDidReceiveNotificationResponse: (NotificationResponse response) {},
-//     );
-
-//     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-//       print(
-//         "Message: ${message.notification?.title}\n${message.notification?.body}",
-//       );
-//       showNotification(
-//         message.notification!.title!,
-//         message.notification!.body!,
-//       );
-//     });
-
-//     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-//       print(
-//         "onOpenApp: ${message.notification!.title}/${message.notification!.body}/${message.notification!.titleLocKey}",
-//       );
-//     });
-//   }
-
-//   Future<void> showNotification(String title, String body) async {
-//     final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-//         FlutterLocalNotificationsPlugin();
-
-//     AndroidNotificationDetails androidNotificationDetails =
-//         AndroidNotificationDetails(
-//           'channelId',
-//           'channelName',
-//           importance: Importance.max,
-//           priority: Priority.high,
-//           ticker: 'ticker',
-//         );
-
-//     DarwinNotificationDetails iosNotificationDetails =
-//         DarwinNotificationDetails();
-
-//     NotificationDetails notificationDetails = NotificationDetails(
-//       android: androidNotificationDetails,
-//       iOS: iosNotificationDetails,
-//     );
-
-//     await flutterLocalNotificationsPlugin.show(
-//       0,
-//       title,
-//       body,
-//       notificationDetails,
-//     );
-//   }
-// }

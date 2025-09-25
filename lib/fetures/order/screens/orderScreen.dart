@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Orderscreen extends StatefulWidget {
-  const Orderscreen({super.key});
+  final String? orderId;
+  const Orderscreen({super.key, this.orderId});
 
   @override
   State<Orderscreen> createState() => _OrderscreenState();
@@ -10,6 +11,9 @@ class Orderscreen extends StatefulWidget {
 class _OrderscreenState extends State<Orderscreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text("Order Screen")));
+    return Scaffold(
+      appBar: AppBar(title: Text("Order Screen")),
+      body: Center(child: Text("Order Id : " + widget.orderId.toString())),
+    );
   }
 }
