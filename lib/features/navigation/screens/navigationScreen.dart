@@ -1,30 +1,27 @@
 import 'package:bloc_practice/config/colorConst.dart';
 import 'package:bloc_practice/config/styling.dart';
-import 'package:bloc_practice/fetures/account/screens/accountScreen.dart';
-import 'package:bloc_practice/fetures/chatting/screens/chattingScreen.dart';
-import 'package:bloc_practice/fetures/home/screens/homeScreen.dart';
-import 'package:bloc_practice/fetures/navigation/bloc/navBloc.dart';
-import 'package:bloc_practice/fetures/navigation/bloc/navEvent.dart';
-import 'package:bloc_practice/fetures/navigation/bloc/navState.dart';
-import 'package:bloc_practice/fetures/order/screens/orderScreen.dart';
+import 'package:bloc_practice/features/account/screens/accountScreen.dart';
+import 'package:bloc_practice/features/chatting/screens/chattingScreen.dart';
+import 'package:bloc_practice/features/home/screens/homeScreen.dart';
+import 'package:bloc_practice/features/login/database/login_database.dart';
+import 'package:bloc_practice/features/navigation/bloc/navBloc.dart';
+import 'package:bloc_practice/features/navigation/bloc/navEvent.dart';
+import 'package:bloc_practice/features/navigation/bloc/navState.dart';
+import 'package:bloc_practice/features/order/screens/orderScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 class Navigationscreen extends StatefulWidget {
-  const Navigationscreen({super.key});
+  final User user;
+  const Navigationscreen({super.key, required this.user});
 
   @override
   State<Navigationscreen> createState() => _NavigationscreenState();
 }
 
 class _NavigationscreenState extends State<Navigationscreen> {
-  final List<Widget> _pages = [
-    Homescreen(),
-    Orderscreen(),
-    Chattingscreen(),
-    Accountscreen(),
-  ];
+  late final List<Widget> _pages;
 
   final List<String> _icons = [
     "assets/home.svg",
@@ -32,6 +29,18 @@ class _NavigationscreenState extends State<Navigationscreen> {
     "assets/chaticon.svg",
     "assets/accounticon.svg",
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize pages here because we can access widget.user in initState
+    _pages = [
+      Homescreen(),
+      Orderscreen(),
+      Chattingscreen(),
+      Accountscreen(user: widget.user),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +61,6 @@ class _NavigationscreenState extends State<Navigationscreen> {
             showSelectedLabels: true,
             showUnselectedLabels: true,
             type: BottomNavigationBarType.fixed,
-
             onTap: (index) {
               context.read<Navbloc>().add(NavigateToPage(index));
             },

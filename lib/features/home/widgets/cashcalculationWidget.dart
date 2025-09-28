@@ -1,6 +1,6 @@
 import 'package:bloc_practice/config/colorConst.dart';
 import 'package:bloc_practice/config/styling.dart';
-import 'package:bloc_practice/fetures/home/widgets/submitbuttonWidget.dart';
+import 'package:bloc_practice/features/home/widgets/submitbuttonWidget.dart';
 import 'package:flutter/material.dart';
 
 class Cashcalculationwidget extends StatelessWidget {
@@ -10,9 +10,8 @@ class Cashcalculationwidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Color(0xFF0000000D)),
+        border: Border.all(color: Color(0xff0000000d)),
         color: whiteColor,
       ),
       child: Column(

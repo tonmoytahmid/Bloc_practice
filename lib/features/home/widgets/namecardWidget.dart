@@ -1,6 +1,6 @@
 import 'package:bloc_practice/config/colorConst.dart';
 import 'package:bloc_practice/config/styling.dart';
-import 'package:bloc_practice/fetures/home/widgets/seeorderWidget.dart';
+import 'package:bloc_practice/features/home/widgets/seeorderWidget.dart';
 import 'package:flutter/material.dart';
 
 class Namecardwidget extends StatelessWidget {

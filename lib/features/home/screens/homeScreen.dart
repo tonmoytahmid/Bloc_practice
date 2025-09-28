@@ -1,10 +1,10 @@
 import 'package:bloc_practice/config/colorConst.dart';
 import 'package:bloc_practice/core/helper/notification_helper.dart';
-import 'package:bloc_practice/fetures/home/widgets/appbarWidget.dart';
-import 'package:bloc_practice/fetures/home/widgets/cancleorderWidget.dart';
-import 'package:bloc_practice/fetures/home/widgets/cashcalculationWidget.dart';
-import 'package:bloc_practice/fetures/home/widgets/namecardWidget.dart';
-import 'package:bloc_practice/fetures/home/widgets/sectionWidget.dart';
+import 'package:bloc_practice/features/home/widgets/appbarWidget.dart';
+import 'package:bloc_practice/features/home/widgets/cancleorderWidget.dart';
+import 'package:bloc_practice/features/home/widgets/cashcalculationWidget.dart';
+import 'package:bloc_practice/features/home/widgets/namecardWidget.dart';
+import 'package:bloc_practice/features/home/widgets/sectionWidget.dart';
 import 'package:flutter/material.dart';
 
 class Homescreen extends StatefulWidget {

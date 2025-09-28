@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class Seeorderwidget extends StatelessWidget {
  final void Function()? onTap;
-  Seeorderwidget({super.key, this.onTap});
+  const Seeorderwidget({super.key, this.onTap});
 
   @override
   Widget build(BuildContext context) {

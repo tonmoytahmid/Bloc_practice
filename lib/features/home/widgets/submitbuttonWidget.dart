@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class Submitbuttonwidget extends StatelessWidget {
   final void Function()? onTap;
-  Submitbuttonwidget({super.key, this.onTap});
+  const Submitbuttonwidget({super.key, this.onTap});
 
   @override
   Widget build(BuildContext context) {

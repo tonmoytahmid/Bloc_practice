@@ -1,5 +1,5 @@
-import 'package:bloc_practice/fetures/navigation/bloc/navEvent.dart';
-import 'package:bloc_practice/fetures/navigation/bloc/navState.dart';
+import 'package:bloc_practice/features/navigation/bloc/navEvent.dart';
+import 'package:bloc_practice/features/navigation/bloc/navState.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Navbloc extends Bloc<NavEvent, Navstate> {

@@ -13,7 +13,7 @@ class _OrderscreenState extends State<Orderscreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Order Screen")),
-      body: Center(child: Text("Order Id : " + widget.orderId.toString())),
+      body: Center(child: Text("Order Id : ${widget.orderId}")),
     );
   }
 }
